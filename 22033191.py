@@ -276,3 +276,52 @@ plt.legend(title='Cluster', labels=legend_labels, loc='lower left')
 
 
 plt.show()
+
+
+
+
+# Select data for each cluster
+cluster_1_data = _dataframe.loc[labels == 0]
+cluster_2_data = _dataframe.loc[labels == 1]
+
+
+
+
+fig, axs = plt.subplots(2, 1, figsize=(12, 8))
+
+year = 2018
+
+# Extract data for current year for each cluster
+cluster_1_year_data = cluster_1_data[str(year)]
+cluster_2_year_data = cluster_2_data[str(year)]
+
+
+# Perform seasonal decomposition for each cluster
+decomposition_1 = seasonal_decompose(cluster_1_year_data, model='additive', period=1)
+trend_1 = decomposition_1.trend
+seasonal_1 = decomposition_1.seasonal
+residual_1 = decomposition_1.resid
+
+decomposition_2 = seasonal_decompose(cluster_2_year_data, model='additive', period=1)
+trend_2 = decomposition_2.trend
+seasonal_2 = decomposition_2.seasonal
+residual_2 = decomposition_2.resid
+
+# Plot trend components for each cluster on same plot
+axs[0].plot(trend_1, color='red', alpha=0.3)
+axs[1].plot(trend_2, color='blue', alpha=0.3)
+
+
+# Add labels and legend to plot
+axs[0].set_title('Trend Components for CO2 Emissions')
+axs[0].legend(['Cluster 1'])
+axs[1].legend(['Cluster 2'])
+
+plt.tight_layout()
+plt.show()
+
+
+# %%
+
+
+
